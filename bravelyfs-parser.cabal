@@ -17,7 +17,7 @@ build-type:          Simple
 cabal-version:       >=1.10
 
 library 
-  exposed-modules:     Data.Bravely.FS.Parser
+  exposed-modules:     Data.Bravely.FS.Parser, Data.Bravely.FS.Types
   other-modules:       Data.Bravely.FS.Internal.Types
   build-depends:       base >=4.8 && <5, binary, word8, bytestring, zlib, digest, filepath
   hs-source-dirs:      src
