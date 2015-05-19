@@ -1,13 +1,14 @@
-module Data.Bravely.FS.Parser where
+module Data.Bravely.FS.Parser(parseIndex, parseCrowd, parseFs, processFsDir) where
 import Codec.Compression.Zlib.Raw
 import Control.Monad
+import Data.Binary.Get 
+import Data.Bits
 import qualified Data.ByteString.Lazy as BL
 import qualified Data.ByteString.Lazy.Char8 as C
-import Data.Bits
 import Data.Word8
-import Data.Bravely.FS.Internal.Types
-import Data.Binary.Get 
 import System.FilePath
+
+import Data.Bravely.FS.Internal.Types
 
 skip' :: Integral a => a -> Get ()
 skip' = skip . fromIntegral
@@ -62,4 +63,4 @@ processFsDir dir = do
     crowdFile <- BL.readFile $ dir </> "crowd.fs"
     let cs = runGet (parseCrowd is) crowdFile
     let files = parseFs cs
-    forM_ files $ (\e -> BL.writeFile (dir </> (C.unpack $ archiveFilename e)) $ archiveData e)
+    forM_ files (\e -> BL.writeFile (dir </> C.unpack (archiveFilename e)) $ archiveData e)
